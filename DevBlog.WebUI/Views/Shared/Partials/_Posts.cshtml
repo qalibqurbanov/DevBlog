@@ -4,18 +4,20 @@
 {
     <div class="col-md-12">
         <div class="blog-entry ftco-animate d-md-flex">
-            <a href="post/@post.PostUrl" class="img img-2" style="background-image: url(@post.PostTumbnailImageUrl);"></a>
+            <a href="/post/@post.PostUrl" class="img img-2" style="background-image: url(@post.PostTumbnailImageUrl);"></a>
             <div class="text text-2 pl-md-4">
-                <h3 class="mb-2 nav-link p-0"><a href="post/@post.PostUrl">@post.Title</a></h3>
+                <h3 class="mb-2 nav-link p-0"><a href="/post/@post.PostUrl">@post.Title</a></h3>
                 <div class="meta-wrap">
                     <p class="meta">
                         <span><i class="icon-calendar mr-2"></i>@post.PublishedDate</span>
-                        <span><a href="#"><i class="icon-folder-o mr-2"></i>@post.Category.Name</a></span>
-                        <span><i class="icon-comment2 mr-2"></i>5 Comment</span>
+                        <span><a href="/posts/category/@post.Category.Name"><i class="icon-folder-o mr-2"></i>@post.Category.Name</a></span>
+                        <span><i class="icon-person mr-2"></i> @post.Author</span>
+
+                        @*<span><i class="icon-comment2 mr-2"></i>5 Comment</span>*@
                     </p>
                 </div>
                 <p class="mb-4">@post.ShortDescription</p>
-                <p><a href="post/@post.PostUrl" class="btn-custom">Read More <span class="ion-ios-arrow-forward"></span></a></p>
+                <p><a href="/post/@post.PostUrl" class="btn-custom">Read More <span class="ion-ios-arrow-forward"></span></a></p>
             </div>
         </div>
     </div>

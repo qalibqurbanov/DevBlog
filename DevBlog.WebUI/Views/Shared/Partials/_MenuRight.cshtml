@@ -7,12 +7,12 @@
     </div>
 
     <div class="sidebar-box ftco-animate">
-        @await Html.PartialAsync("/Views/Shared/Partials/_MenuRight-PopularPosts.cshtml")
+        @await Component.InvokeAsync("PopularPosts")
     </div>
 
-    <div class="sidebar-box ftco-animate">
+@*    <div class="sidebar-box ftco-animate">
         @await Html.PartialAsync("/Views/Shared/Partials/_MenuRight-TagCloud.cshtml")
-    </div>
+    </div>*@
 
     @*<div class="sidebar-box ftco-animate">
         <h3 class="sidebar-heading">Archives</h3>

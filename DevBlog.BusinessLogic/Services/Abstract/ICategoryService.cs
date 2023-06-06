@@ -7,9 +7,11 @@ namespace DevBlog.BusinessLogic.Services.Abstract
     public interface ICategoryService
     {
         /* IRepository: */
-        List<Category> GetAll(Expression<Func<Category, bool>> expression = null);
         void Edit(Category entity, Action<EntityEntry<Category>> rules);
         void Remove(Category entity);
         void Add(Category entity);
+
+        /* ICategoryService: */
+        List<Category> GetAll(Expression<Func<Category, bool>> expression = null);
     }
 }

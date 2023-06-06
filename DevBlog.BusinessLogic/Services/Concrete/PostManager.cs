@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using DevBlog.Core.Entities;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Mvc;
 using DevBlog.DataAccess.UnitOfWork.Abstract;
 using DevBlog.BusinessLogic.Services.Abstract;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -52,6 +53,24 @@ namespace DevBlog.BusinessLogic.Services.Concrete
             {
                 _unitOfWork.Posts.Remove(entity);
             }
+        }
+
+        public int GetPostCount()
+        {
+            return _unitOfWork.Posts.GetPostCount();
+        }
+
+        public List<Post> GetPopularPosts()
+        {
+            return _unitOfWork.Posts.GetPopularPosts().ToList();
+        }
+
+        public List<Post> SearchPostsByKeyword([FromQuery] string SearchKeyword)
+        {
+            if(!string.IsNullOrEmpty(SearchKeyword))
+                return _unitOfWork.Posts.SearchPostsByKeyword(SearchKeyword).ToList();
+            else
+                return Enumerable.Empty<Post>() as List<Post>;
         }
     }
 }

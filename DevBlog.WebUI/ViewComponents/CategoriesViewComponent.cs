@@ -8,7 +8,7 @@ namespace DevBlog.WebUI.ViewComponents
     /// </summary>
     public class CategoriesViewComponent : ViewComponent
     {
-        private ICategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
         public CategoriesViewComponent(ICategoryService categoryService)
         {
             this._categoryService = categoryService;

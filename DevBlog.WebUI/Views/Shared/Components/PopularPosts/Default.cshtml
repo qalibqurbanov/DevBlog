@@ -1,0 +1,22 @@
+﻿@model List<Post>
+
+@if(Model != null)
+{
+    <h3 class="sidebar-heading">Popular Posts</h3>
+    @foreach(Post post in Model)
+    {
+        <div class="block-21 mb-4 d-flex">
+            <a class="blog-img mr-4" style="background-image: url(@post.PostTumbnailImageUrl);"></a>
+            <div class="text">
+                <h3 class="heading"><a href="/post/@post.PostUrl">@post.Title</a></h3>
+                <div class="meta">
+                    <div><span class="icon-calendar"></span> @post.PublishedDate</div>
+                    <div><span class="icon-person"></span> @post.Author</div>
+                    <div><span class="icon-folder-o"></span> @post.Category.Name</div>
+
+                    @*<div><span class="icon-chat"></span> 19</div>*@
+                </div>
+            </div>
+        </div>
+    }
+}

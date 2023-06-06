@@ -31,5 +31,28 @@ namespace DevBlog.DataAccess.Repository.Concrete
 
             return query.Include(post => post.Category);
         }
+
+        public int GetPostCount()
+        {
+            return TablePosts.AsNoTracking().Count();
+        }
+
+        public IQueryable<Post> GetPopularPosts()
+        {
+            if(GetPostCount() >= 3)
+                return TablePosts.OrderBy(post => post.Content).Include(post => post.Category).Take(3);
+            else
+                return GetAll();
+        }
+
+        public IQueryable<Post> SearchPostsByKeyword(string SearchKeyword)
+        {
+            var posts = TablePosts
+                .AsNoTracking()
+                .Where(post => post.Title.ToLower().Contains(SearchKeyword.ToLower()) || post.Content.ToLower().Contains(SearchKeyword.ToLower()) || post.ShortDescription.ToLower().Contains(SearchKeyword.ToLower()))
+                .Include(post => post.Category);
+
+            return posts;
+        }
     }
 }

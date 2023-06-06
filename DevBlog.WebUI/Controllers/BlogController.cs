@@ -70,5 +70,16 @@ namespace DevBlog.WebUI.Controllers
                 return NotFound();
             }
         }
+
+        [HttpGet]
+        public IActionResult SearchResult([FromQuery] string q) /* '_search' partialinda bu 'q' parametrini yerlewdirmiwdik Query Stringe. Burada 'SearchResult()' actioninda hemin 'q'-nin datasini(?q=...) yaxalayiriq */
+		{
+            PostListViewModel postListVM = new PostListViewModel()
+            {
+                Posts = _postService.SearchPostsByKeyword(q)
+            };
+
+            return View(postListVM);
+        }
     }
 }

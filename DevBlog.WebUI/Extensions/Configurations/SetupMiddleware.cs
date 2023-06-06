@@ -46,6 +46,13 @@
                 #region Page: Post
                 endpoints.MapControllerRoute
                 (
+                    name: "Search",
+                    pattern: "search",
+                    defaults: new { controller = "Blog", action = "SearchResult" }
+                );
+
+                endpoints.MapControllerRoute
+                (
                     name: "PostsListByCategoryPage",
                     pattern: "posts/category/{categoryName}",
                     defaults: new { controller = "Blog", action = "PostsListByCategory" }

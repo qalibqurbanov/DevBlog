@@ -1,0 +1,16 @@
+﻿@model List<Category>
+
+<div class="list-group">
+    <h3 class="sidebar-heading">Categories</h3>
+
+    <ul class="categories">
+        @foreach(Category category in Model)
+        {
+            <li>
+                <a href="/posts/category/@category.Name">
+                    @category.Name <span>(@category.Posts.Count)</span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

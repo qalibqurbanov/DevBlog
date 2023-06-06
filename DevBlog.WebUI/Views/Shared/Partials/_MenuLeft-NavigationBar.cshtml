@@ -1,0 +1,19 @@
+﻿<nav id="colorlib-main-menu" role="navigation">
+    <ul>
+        @{
+            string CurrentActionMethod = Context.Request.RouteValues["action"].ToString();
+
+            <li class="@(CurrentActionMethod == "PostsList" || CurrentActionMethod == "PostDetails" || CurrentActionMethod == "PostsListByCategory" ? "colorlib-active" : "")">
+                <a asp-controller="Blog" asp-action="PostsList">Blog</a>
+            </li>
+
+            <li class="@(CurrentActionMethod == "About" ? "colorlib-active" : "")">
+                <a asp-controller="Home" asp-action="About">About</a>
+            </li>
+
+            <li class="@(CurrentActionMethod == "Contact" ? "colorlib-active" : "")">
+                <a asp-controller="Home" asp-action="Contact">Contact</a>
+            </li>
+        }
+    </ul>
+</nav>

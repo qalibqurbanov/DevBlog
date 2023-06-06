@@ -1,0 +1,31 @@
+﻿@model PostViewModel
+
+<div id="colorlib-page">
+    <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+    @await Html.PartialAsync("/Views/Shared/Partials/_MenuLeft.cshtml")
+
+    <div id="colorlib-main">
+        <section class="ftco-section ftco-no-pt ftco-no-pb">
+            <div class="container">
+                <div class="row d-flex">
+                    <div class="col-lg-8 px-md-5 py-5">
+                        <div class="row pt-md-4">
+                            <div class="container">
+                                @await Html.PartialAsync("/Views/Shared/Partials/_Post-Content.cshtml", Model.Content)
+                            </div>
+
+                            @await Html.PartialAsync("/Views/Shared/Partials/_Post-Tags.cshtml")
+
+                            @await Html.PartialAsync("/Views/Shared/Partials/_Post-Author.cshtml")
+
+                            @await Html.PartialAsync("/Views/Shared/Partials/_Post-Comments.cshtml")
+                        </div>
+                    </div>
+                    @await Html.PartialAsync("/Views/Shared/Partials/_MenuRight.cshtml")
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+@await Html.PartialAsync("/Views/Shared/Partials/_Loader.cshtml")

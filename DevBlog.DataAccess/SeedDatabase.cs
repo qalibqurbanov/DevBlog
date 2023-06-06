@@ -1,0 +1,64 @@
+﻿using DevBlog.Core.Entities;
+using Microsoft.Extensions.Hosting;
+using DevBlog.DataAccess.DatabaseContexts;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace DevBlog.DataAccess
+{
+    /// <summary>
+    /// Bu sinif DB yaradaraq icerisini dummy/test datalar ile doldurmaq ucundur.
+    /// </summary>
+    public static class SeedDatabase
+    {
+        /// <summary>
+        /// Database-in icerisini dummy datalar ile doldurur.
+        /// </summary>
+        public static void SeedDummyDatasToDB(this IHost host)
+        {
+            /* 'Scoped' olan servisin scope/Request daxilinde cemi 1 orneyinin teleb olunmasini qarantiyaya almaq ucun yeni bir scope yaradiriq: */
+            using(IServiceScope scope = host.Services.CreateScope())
+            {
+                /* IoC Container-dan daha once yerlewdirdiyim 'BlogDbContext' obyektini teleb edirem: */
+                using(BlogDbContext _dbContext = scope.ServiceProvider.GetRequiredService<BlogDbContext>())
+                {
+                    /* Eger 'Posts' ve 'Categories' cedveli bowdursa: */
+                    if(_dbContext.Posts.Count() == 0 && _dbContext.Categories.Count() == 0)
+                    {
+                        _dbContext.Categories.AddRange(CategoryArray);
+                        _dbContext.Posts.AddRange(PostArray);
+
+                        _dbContext.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        private static readonly Category[] CategoryArray = new Category[]
+        {
+            new Category() { Name = "CSharp" },
+            new Category() { Name = "ASP Core" },
+            new Category() { Name = "Javascript" },
+            new Category() { Name = "HTML" },
+            new Category() { Name = "CSS" },
+        };
+
+        private static readonly Post[] PostArray = new Post[]
+        {
+            new Post() { Title = "Variables", Author="Qalib", Content ="Lorem ipsum dolor sit amet consectetur, adipiscing elit lobortis tristique. Cursus potenti netus nec varius sodales cubilia vitae auctor senectus sapien montes, tempus inceptos suspendisse laoreet elit dapibus tincidunt orci ad arcu, habitasse rutrum consectetur venenatis nullam morbi natoque risus tempor sit. Nibh conubia sapien habitant dignissim arcu felis in metus ut magnis dapibus elit venenatis, sem taciti pretium nec morbi nostra fusce placerat vivamus cum sagittis curabitur volutpat, primis facilisis accumsan eget dis leo duis ullamcorper ad enim gravida tincidunt. Viverra parturient sed lacus montes aliquam justo ridiculus tempor, sollicitudin non natoque platea hac sociis. Duis neque fames imperdiet bibendum justo sociosqu non egestas, lectus ut tempor nibh etiam eget commodo class, quisque lorem tempus ullamcorper sit leo pharetra. Pellentesque habitant inceptos maecenas aenean mattis condimentum dui libero sodales venenatis, molestie dolor ultrices ligula nascetur odio rhoncus rutrum. Euismod parturient erat taciti porta arcu himenaeos consequat dignissim cubilia, mattis est faucibus sed condimentum ullamcorper magnis nostra facilisi nullam, ad eget felis praesent proin diam non a. Cubilia ligula vehicula sociosqu adipiscing neque sem cursus, mauris turpis fringilla volutpat pellentesque pulvinar mi etiam, nisi nibh purus duis class eros. Taciti hendrerit nullam volutpat ullamcorper placerat auctor et metus nibh sollicitudin dapibus, curabitur rutrum condimentum ut varius ornare praesent nec venenatis per.", IsDeleted=false, PostTumbnailImageUrl= "/assets/images/image_11.jpg", PostUrl="giriw-deyiwen-tipleri-haqqinda", PublishedDate=DateTime.Now, ShortDescription="Short desc. 1",CategoryID = 3 },
+
+            new Post() {  Title = "Arrays", Author="Sabina", Content ="Lobortis senectus risus non aptent arcu scelerisque ridiculus, iaculis mattis faucibus sollicitudin id netus ultrices cras, enim magnis feugiat duis vehicula lacus. Massa viverra integer molestie etiam potenti libero adipiscing semper nibh pulvinar, ridiculus pharetra ornare purus metus quisque euismod vel magna, quis venenatis lectus faucibus posuere nisi netus lacinia sagittis. Odio condimentum aenean habitant in donec senectus eros aptent mi, tortor metus ac etiam orci viverra placerat dolor nascetur, scelerisque lobortis faucibus erat egestas amet proin quis. Tincidunt luctus sollicitudin dapibus ultrices nam pellentesque semper, cubilia dis feugiat tortor gravida dui, dictum penatibus purus quisque habitasse fames. Suscipit proin dis curabitur porttitor ante bibendum rhoncus metus sed at, nibh class accumsan amet scelerisque himenaeos eros tristique lacinia morbi condimentum, libero nec netus elit mauris facilisis in ornare vitae.", IsDeleted=false, PostTumbnailImageUrl= "/assets/images/image_10.jpg", PostUrl="massivler-ne-ucun-lazimdir", PublishedDate=DateTime.Now, ShortDescription="Short desc. 2", CategoryID =2 },
+            
+            new Post() { Title = "Collections", Author="Qerib", Content ="Non lacinia per elit nullam volutpat dolor cursus turpis a, vitae pretium imperdiet tincidunt eget vehicula fusce curae, sollicitudin aenean ac sociosqu feugiat nulla at eu. Lacinia platea euismod litora potenti metus est nulla non habitasse ultrices viverra, nascetur tempus nisi suspendisse ullamcorper laoreet auctor convallis primis lectus ligula, himenaeos massa proin aliquet magna volutpat penatibus cras eros condimentum. Nibh vitae ante euismod libero dis ut facilisi morbi lobortis nunc penatibus lacinia aenean himenaeos, sociosqu sagittis taciti nascetur auctor dui egestas tincidunt integer interdum imperdiet eget gravida. Et lobortis odio ad vivamus magna convallis dictum ullamcorper, condimentum risus elementum duis eros bibendum habitant, taciti nisl morbi enim donec iaculis natoque.\r\n\r\n", IsDeleted=false, PostTumbnailImageUrl= "/assets/images/image_2.jpg", PostUrl="C#da-hansi-kolleksiyalar-movcuddur-ve-istifadesi", PublishedDate=DateTime.Now, ShortDescription="Short desc. 3", CategoryID = 3 },
+            
+            new Post() { Title = "Multithreading", Author="Qerib", Content ="At lacus torquent eget lectus dis inceptos erat eu porttitor cursus, fames varius ligula nibh sagittis sociis curae nullam elementum etiam aptent, posuere nostra consequat orci aliquam faucibus placerat cras vivamus. Varius tempor netus nam habitant vel cursus, lobortis diam tristique eu odio, sit porttitor sociosqu leo vivamus. Blandit eget convallis elementum sodales quisque suspendisse metus faucibus, himenaeos aliquam nulla pellentesque tincidunt dolor proin taciti, facilisis consectetur tempus ullamcorper lacinia hendrerit venenatis. Volutpat condimentum ut dis netus ullamcorper lacus magna, nec fames etiam dolor montes pulvinar tincidunt scelerisque, nunc per turpis mi laoreet orci. Cubilia eros sagittis aliquam phasellus sit ultrices tincidunt senectus ullamcorper, bibendum habitant mollis ante ligula augue nec tristique a, auctor nisl ridiculus justo fusce class porta platea.\r\n\r\n", IsDeleted=false, PostTumbnailImageUrl= "/assets/images/image_7.jpg", PostUrl="Multitheading-Concurrency-Thread-ve-s-nedir-ve-istifade-qaydasi", PublishedDate=DateTime.Now, ShortDescription="Short desc. 4", CategoryID = 2 },
+            
+            new Post() { Title = "Asynchronous programming", Author="Sofiya", Content ="Dapibus in duis lacus praesent pretium tempus fringilla enim vehicula leo, mauris per porta aliquam sem dictum ultrices non. Dolor torquent porta feugiat mollis nascetur natoque nullam, nostra nam taciti metus conubia quisque ligula, facilisi rutrum adipiscing dapibus sollicitudin aenean, placerat pharetra mattis at venenatis lorem. Justo ligula scelerisque tempor cum ac curabitur porta, enim leo curae fringilla placerat lectus in, arcu odio bibendum penatibus rutrum quisque. Sem libero eu inceptos ac arcu ut porttitor nunc curabitur, hac dignissim purus integer habitasse feugiat scelerisque natoque. Dui porttitor hendrerit varius facilisis etiam habitant sodales euismod scelerisque, pretium nisl fusce phasellus commodo condimentum dolor mattis est, ridiculus faucibus dapibus quisque pulvinar sagittis at in. Posuere nisi tortor fermentum eu neque nascetur per consequat sagittis venenatis malesuada eros, lectus auctor sapien habitasse feugiat ullamcorper turpis vitae leo aliquam. Sollicitudin dignissim at convallis interdum faucibus sit justo senectus fames mauris class, feugiat dapibus nibh molestie gravida quisque blandit lobortis hendrerit. Fusce felis arcu egestas magna pulvinar class molestie suscipit accumsan cubilia, consectetur mattis nullam sem conubia mollis sociis fringilla vel, taciti cum iaculis ante maecenas vitae dolor interdum luctus.\r\n\r\n", IsDeleted=false, PostTumbnailImageUrl= "/assets/images/image_8.jpg", PostUrl="async-await-ve-s", PublishedDate=DateTime.Now, ShortDescription="Short desc. 5", CategoryID = 2 },
+            
+            new Post() { Title = "Multitasking", Author="Sebine", Content ="Accumsan condimentum porttitor lorem dictum sagittis mi blandit consectetur nec molestie quisque cubilia orci, ornare suspendisse rutrum elit interdum sociosqu justo dis odio posuere vehicula. Porta erat adipiscing natoque curae cubilia lacus mauris amet condimentum, arcu netus blandit conubia donec sagittis aliquet mi, vestibulum malesuada dapibus nisl urna nulla cursus nostra. Habitasse hac convallis tortor integer praesent mattis dapibus erat facilisis viverra torquent tincidunt neque aenean urna, mollis vel himenaeos facilisi ultricies primis leo suscipit pulvinar sodales tempor ut inceptos. Fames feugiat per mauris risus vel felis eget ac eros nunc tincidunt turpis, sollicitudin amet inceptos cursus diam donec nisl litora consectetur tristique consequat. Dignissim magna nisi sodales habitant aenean proin sollicitudin potenti eget, aptent blandit diam primis facilisis lobortis at justo, sagittis facilisi morbi dolor elit mi ultrices integer.\r\n\r\n", IsDeleted=false, PostTumbnailImageUrl= "/assets/images/image_6.jpg", PostUrl="Multitasking-nedir", PublishedDate=DateTime.Now, ShortDescription="Short desc. 6", CategoryID = 3 },
+            
+            new Post() { Title = "LINQ", Author="Adil", Content ="Mauris vel torquent venenatis elit curabitur imperdiet montes dictum, consectetur quis eu convallis ultrices auctor interdum, penatibus taciti pellentesque cras nunc rutrum nisl. Elit praesent elementum nulla cum quis molestie sit leo, facilisis in a phasellus fusce vel consectetur lacus nisl, justo commodo mattis sodales nec consequat facilisi. Scelerisque habitasse ornare gravida pretium augue ligula rhoncus erat senectus, lectus mattis sodales iaculis elit lorem sapien euismod est, aliquet aenean volutpat platea a fusce metus maecenas. Hendrerit magna mollis sagittis elementum viverra amet nulla, quis inceptos facilisis faucibus augue class, tincidunt volutpat pretium tortor massa mattis. Fringilla erat ultricies donec lorem posuere primis dolor, ac nascetur pharetra sociis tincidunt nunc. Penatibus cum platea non litora urna ante netus euismod, volutpat mattis sit auctor maecenas per pulvinar, in ullamcorper elit eros hac himenaeos purus. Auctor taciti duis facilisis suspendisse sem ultrices, torquent vel consectetur purus magna. Faucibus inceptos ultrices cum eu sapien nunc nam id, augue fermentum commodo fringilla conubia arcu morbi vestibulum, curae facilisi bibendum neque venenatis convallis sed.\r\n\r\n", IsDeleted=false, PostTumbnailImageUrl= "/assets/images/image_5.jpg", PostUrl="linq-istifadesi-haqqinda", PublishedDate=DateTime.Now, ShortDescription="Short desc. 7", CategoryID = 1 },
+            
+            new Post() { Title = "Reflection", Author="Sofiya", Content ="Etiam nisl metus ridiculus rhoncus cum condimentum massa ultricies, gravida sem proin lacinia tincidunt aenean taciti amet, dignissim tempor facilisis platea sollicitudin feugiat conubia. Eget nisi volutpat ad varius a praesent eros mollis adipiscing aenean suscipit, per dis sagittis phasellus venenatis et ac etiam lobortis aptent dui luctus, felis eu quis hac facilisi tristique nec curabitur in lacus. Netus amet hac sollicitudin habitasse natoque ac elementum ad nam neque, malesuada fusce ornare conubia cras nec porta phasellus aenean tortor, arcu etiam tristique lorem auctor montes parturient massa feugiat. Himenaeos sed rhoncus sem dolor natoque tristique maecenas magna nec, purus metus aptent leo ipsum sociosqu curae suspendisse. Hac rutrum rhoncus accumsan pretium ante montes ultrices habitant fringilla erat fermentum, ridiculus lorem elementum consectetur facilisi dapibus sapien lacinia eget libero eu adipiscing, magnis mollis purus ornare et dui inceptos venenatis at arcu.\r\n\r\n", IsDeleted=false, PostTumbnailImageUrl= "/assets/images/image_4.jpg", PostUrl="Reflection-nedir-ve-istifadesi", PublishedDate=DateTime.Now, ShortDescription="Short desc. 8", CategoryID = 5 },
+        };
+    }
+}

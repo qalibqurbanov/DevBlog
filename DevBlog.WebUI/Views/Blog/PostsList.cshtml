@@ -1,0 +1,38 @@
+﻿@model PostListViewModel
+
+<div id="colorlib-page">
+    <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+    @await Html.PartialAsync("/Views/Shared/Partials/_MenuLeft.cshtml")
+
+    <div id="colorlib-main">
+        <section class="ftco-section ftco-no-pt ftco-no-pb">
+            <div class="container">
+                <div class="row d-flex">
+                    @if(Model.Posts.Count > 0)
+                    {
+                        <div class="col-xl-8 py-5 px-md-5">
+                            <div class="row pt-md-4">
+                                @await Html.PartialAsync("/Views/Shared/Partials/_Posts.cshtml", Model)
+                            </div>
+                            @await Html.PartialAsync("/Views/Shared/Partials/_Posts-Pages.cshtml")
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-xl-8 py-5 px-md-5">
+                            <div class="row pt-md-4">
+                                <div class="alert mt-2 mb-2 mr-2 ml-2 border-left rounded-0 position-relative text-center ml-auto mr-auto" style="width:fit-content; height: fit-content;">
+                                    <strong>Ooops!</strong> There are no posts available in <span style="font-weight:600;">@TempData["CategoryName"]</span> category.
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @await Html.PartialAsync("/Views/Shared/Partials/_MenuRight.cshtml")
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+@await Html.PartialAsync("/Views/Shared/Partials/_Loader.cshtml")

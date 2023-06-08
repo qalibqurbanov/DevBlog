@@ -10,5 +10,6 @@ namespace DevBlog.DataAccess.Repository.Abstract
         int GetPostCount();
         IQueryable<Post> GetPopularPosts();
         IQueryable<Post> SearchPostsByKeyword(string SearchKeyword);
+        IQueryable<Post> GetPostsByCategoryName(int Page, int PostCountPerPage, string CategoryName = null);
     }
 }

@@ -1,14 +1,35 @@
-﻿<div class="row text-center">
+﻿@model PostListViewModel
+
+<div class="row text-center">
     <div class="col">
         <div class="block-27">
             <ul>
-                <li><a href="#">&lt;</a></li>
-                <li class="active"><span>1</span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&gt;</a></li>
+                @if(String.IsNullOrEmpty(Model.PageInformation.CurrentCategoryName))
+                {
+                    <li><a href="#">&lt;</a></li>
+                    @for (int pageNum = 1; pageNum <= Model.PageInformation.TotalPages(); pageNum++)
+                    {
+                        <li class="@(Model.PageInformation.CurrentPage == (pageNum) ? "active" : "")">
+                            <span>
+                                <a href="/posts?page=@(pageNum)">@(pageNum)</a>
+                            </span>
+                        </li>
+                    }
+                    <li><a href="#">&gt;</a></li>
+                }
+                else
+                {
+                    <li><a href="#">&lt;</a></li>
+                    @for(int pageNum = 1; pageNum <= Model.PageInformation.TotalPages(); pageNum++)
+                    {
+                        <li class="@(Model.PageInformation.CurrentPage == (pageNum) ? "active" : "")">
+                            <span>
+                                <a href="/posts/category/@Model.PageInformation.CurrentCategoryName?page=@(pageNum)">@(pageNum)</a>
+                            </span>
+                        </li>
+                    }
+                    <li><a href="#">&gt;</a></li>
+                }
             </ul>
         </div>
     </div>

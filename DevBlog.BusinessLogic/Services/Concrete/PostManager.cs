@@ -72,5 +72,10 @@ namespace DevBlog.BusinessLogic.Services.Concrete
             else
                 return Enumerable.Empty<Post>() as List<Post>;
         }
-    }
+
+		public List<Post> GetPostsByCategoryName(int Page, int PostCountPerPage, string CategoryName = null)
+		{
+            return _unitOfWork.Posts.GetPostsByCategoryName(Page, PostCountPerPage, CategoryName).ToList();
+		}
+	}
 }

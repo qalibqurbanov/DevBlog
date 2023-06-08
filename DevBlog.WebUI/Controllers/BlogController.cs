@@ -2,6 +2,7 @@
 using DevBlog.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using DevBlog.WebUI.Models.ViewModels;
+using DevBlog.WebUI.Models.Pagination;
 using DevBlog.BusinessLogic.Services.Abstract;
 
 namespace DevBlog.WebUI.Controllers
@@ -17,37 +18,45 @@ namespace DevBlog.WebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult PostsList()
+        public IActionResult PostsList([FromQuery] int page = 1)
         {
+            const int PostCountPerPage = 3;
+
             PostListViewModel postListVM = new PostListViewModel()
             {
-                Posts = _postService.GetAll()
+                Posts = _postService.GetPostsByCategoryName(page, PostCountPerPage, null),
+                PageInformation = new PageInformation()
+                {
+                    TotalPosts = _postService.GetPostCount(),
+                    CurrentPage = page,
+                    PostsPerPage = PostCountPerPage,
+                    CurrentCategoryName = null
+                }
             };
 
             return View(postListVM);
         }
 
         [HttpGet]
-        public IActionResult PostsListByCategory([FromRoute] string categoryName)
+        public IActionResult PostsListByCategory([FromRoute] string categoryName, [FromQuery] int page = 1)
         {
-            PostListViewModel postListVM;
+            const int PostCountPerPage = 3;
 
-            if(!string.IsNullOrEmpty(categoryName))
-            {
-                postListVM = new PostListViewModel()
-                {
-                    Posts = _postService.GetAll(post => post.Category.Name == categoryName)
-                };
+            List<Post> posts = _postService.GetPostsByCategoryName(page, PostCountPerPage, categoryName);
 
-                TempData["CategoryName"] = categoryName;
-            }
-            else
+            PostListViewModel postListVM = new PostListViewModel()
             {
-                postListVM = new PostListViewModel()
+                Posts = posts,
+                PageInformation = new PageInformation()
                 {
-                    Posts = _postService.GetAll()
-                };
-            }
+                    TotalPosts = posts.Count,
+                    CurrentPage = page,
+                    PostsPerPage = PostCountPerPage,
+                    CurrentCategoryName = categoryName
+                }
+            };
+
+            TempData["CategoryName"] = categoryName;
 
             return View(nameof(PostsList), postListVM);
         }

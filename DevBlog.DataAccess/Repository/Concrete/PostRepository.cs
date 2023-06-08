@@ -54,5 +54,20 @@ namespace DevBlog.DataAccess.Repository.Concrete
 
             return posts;
         }
-    }
+
+		public IQueryable<Post> GetPostsByCategoryName(int Page, int PostCountPerPage, string CategoryName = null)
+		{
+            var Posts = TablePosts
+                .Include(post => post.Category)
+                .AsQueryable();
+
+            if(!string.IsNullOrEmpty(CategoryName))
+            {
+                Posts = Posts.Where(post => post.Category.Name == CategoryName);
+            }
+
+            /* Niye "(Page - 1) * ProductCountByPage" : Eger 'Page' verilmese, Controllerden bura optional Page parametrinde olan 1 deyeri gelecek ve 0-da 'ProductCountByPage' -e vururuq, netice olacaq 0. Yeni, 'Page' verilmese hec bir datani skipleme - demiw oluruq */
+            return Posts.Skip((Page - 1) * PostCountPerPage).Take(PostCountPerPage);
+		}
+	}
 }

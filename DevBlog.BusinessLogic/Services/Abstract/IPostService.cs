@@ -16,5 +16,6 @@ namespace DevBlog.BusinessLogic.Services.Abstract
         int GetPostCount();
         List<Post> GetPopularPosts();
         List<Post> SearchPostsByKeyword(string SearchKeyword);
+		List<Post> GetPostsByCategoryName(int Page, int PostCountPerPage, string CategoryName = null);
     }
 }
